@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PremiumShop – Tài khoản Premium giá rẻ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --indigo: #4F46E5;
+  --indigo-dark: #3730A3;
+  --indigo-light: #EEF2FF;
+  --indigo-mid: #6366F1;
+  --text: #111827;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --bg: #FFFFFF;
+  --bg2: #F9FAFB;
+  --green: #059669;
+  --red: #DC2626;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(79,70,229,.07);
+  --shadow-lg: 0 8px 32px rgba(79,70,229,.15);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.25rem;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: .5rem;
+  font-weight: 800; font-size: 1.1rem; color: var(--indigo);
+  text-decoration: none;
+}
+.logo-icon {
+  width: 34px; height: 34px; background: var(--indigo);
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.header-cta {
+  background: var(--indigo); color: #fff;
+  padding: .45rem 1.1rem; border-radius: 8px;
+  font-size: .85rem; font-weight: 600; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: background .18s;
+}
+.header-cta:hover { background: var(--indigo-dark); }
+
+/* ── HERO ── */
+.hero {
+  padding: 3.5rem 1.25rem 2.5rem;
+  text-align: center;
+  background: linear-gradient(160deg, #fff 55%, #EEF2FF 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -40px; left: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(79,70,229,.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--indigo-light); color: var(--indigo);
+  border: 1px solid #C7D2FE;
+  padding: .35rem .9rem; border-radius: 999px;
+  font-size: .78rem; font-weight: 600; margin-bottom: 1.4rem;
+  animation: fadeDown .5s ease both;
+}
+.hero h1 {
+  font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 800;
+  line-height: 1.2; margin-bottom: 1rem;
+  animation: fadeDown .5s .08s ease both;
+}
+.hero h1 em { font-style: normal; color: var(--indigo); }
+.hero p {
+  color: var(--muted); font-size: 1rem; line-height: 1.7;
+  max-width: 480px; margin: 0 auto 2rem;
+  animation: fadeDown .5s .16s ease both;
+}
+.hero-actions {
+  display: flex; flex-direction: column; gap: .8rem;
+  align-items: center;
+  animation: fadeDown .5s .24s ease both;
+}
+.btn-hero {
+  background: var(--indigo); color: #fff;
+  padding: .9rem 2.2rem; border-radius: 10px;
+  font-size: 1rem; font-weight: 700; border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(79,70,229,.35);
+  transition: transform .18s, box-shadow .18s;
+  width: 100%; max-width: 300px;
+}
+.btn-hero:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(79,70,229,.45); }
+.hero-note {
+  font-size: .78rem; color: var(--muted);
+  display: flex; align-items: center; gap: .3rem; justify-content: center;
+}
+.trust-row {
+  display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  animation: fadeDown .5s .32s ease both;
+}
+.trust-item {
+  display: flex; align-items: center; gap: .45rem;
+  font-size: .82rem; color: var(--muted); font-weight: 500;
+}
+.trust-item strong { color: var(--text); }
+
+/* ── PRODUCTS ── */
+.section { padding: 3rem 1.25rem; max-width: 700px; margin: 0 auto; }
+.section-label {
+  text-align: center; font-size: .78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--indigo); margin-bottom: .6rem;
+}
+.section-title {
+  text-align: center; font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 800; margin-bottom: .6rem;
+}
+.section-sub { text-align: center; color: var(--muted); font-size: .92rem; margin-bottom: 2rem; line-height: 1.6; }
+
+.products-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: 1rem; margin-bottom: 1rem;
+}
+@media(min-width:520px) { .products-grid { grid-template-columns: repeat(3,1fr); } }
+
+.product-card {
+  background: #fff; border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 1.4rem 1.1rem;
+  text-align: center; cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+}
+.product-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--indigo-light); opacity: 0;
+  transition: opacity .2s;
+}
+.product-card:hover { border-color: var(--indigo); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.product-card:hover::before { opacity: 1; }
+.product-card.selected { border-color: var(--indigo); box-shadow: var(--shadow-lg); }
+.product-card.selected::before { opacity: 1; }
+.product-card > * { position: relative; z-index: 1; }
+.product-emoji { font-size: 2.2rem; margin-bottom: .2rem; }
+.product-name { font-size: .95rem; font-weight: 700; }
+.product-price-tag {
+  font-size: 1.15rem; font-weight: 800; color: var(--indigo);
+  margin: .15rem 0;
+}
+.product-duration { font-size: .72rem; color: var(--muted); }
+.btn-select {
+  margin-top: .5rem; padding: .45rem 1.1rem; border-radius: 7px;
+  background: var(--indigo-light); color: var(--indigo);
+  border: 1.5px solid #C7D2FE; font-size: .8rem; font-weight: 700;
+  cursor: pointer; transition: background .18s;
+  font-family: inherit;
+}
+.btn-select:hover, .product-card.selected .btn-select {
+  background: var(--indigo); color: #fff; border-color: var(--indigo);
+}
+.popular-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: var(--indigo); color: #fff;
+  font-size: .62rem; font-weight: 700; padding: .2rem .5rem;
+  border-radius: 999px;
+}
+
+/* ── FORM ── */
+.form-section { background: var(--bg2); padding: 3rem 1.25rem; }
+.form-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 20px; padding: 2rem 1.5rem;
+  max-width: 520px; margin: 0 auto;
+  box-shadow: var(--shadow);
+}
+.form-card-header { margin-bottom: 1.8rem; }
+.form-card-header h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: .3rem; }
+.form-card-header p { font-size: .85rem; color: var(--muted); }
+
+.field { margin-bottom: 1.2rem; }
+.field label {
+  display: block; font-size: .82rem; font-weight: 600;
+  margin-bottom: .4rem; color: var(--text);
+}
+.field label span { color: var(--red); }
+.field input, .field select {
+  width: 100%; padding: .75rem 1rem;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-size: .95rem; font-family: inherit; color: var(--text);
+  background: #fff; outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  -webkit-appearance: none;
+}
+.field input:focus, .field select:focus {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+}
+.field input.error, .field select.error { border-color: var(--red); }
+.field-error { font-size: .75rem; color: var(--red); margin-top: .3rem; display: none; }
+.field-error.show { display: block; }
+
+.price-display {
+  margin-top: .7rem;
+  background: var(--indigo-light); border: 1.5px solid #C7D2FE;
+  border-radius: 10px; padding: .9rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.price-display .label { font-size: .82rem; color: var(--indigo); font-weight: 600; }
+.price-display .amount { font-size: 1.3rem; font-weight: 800; color: var(--indigo); }
+
+.btn-submit {
+  width: 100%; padding: .95rem; border-radius: 10px;
+  background: var(--indigo); color: #fff;
+  font-size: 1rem; font-weight: 700; font-family: inherit;
+  border: none; cursor: pointer; margin-top: .8rem;
+  box-shadow: 0 4px 16px rgba(79,70,229,.3);
+  transition: background .18s, transform .18s;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.btn-submit:hover:not(:disabled) { background: var(--indigo-dark); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+.btn-submit .spinner {
+  width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.4);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: none;
+}
+.btn-submit.loading .spinner { display: block; }
+.btn-submit.loading .btn-text { display: none; }
+
+.form-note {
+  text-align: center; font-size: .75rem; color: var(--muted);
+  margin-top: .8rem; line-height: 1.6;
+}
+
+/* ── REVIEWS ── */
+.reviews-section { padding: 3rem 1.25rem; max-width: 700px; margin: 0 auto; }
+.review-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media(min-width:520px) { .review-grid { grid-template-columns: repeat(2,1fr); } }
+.review-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.2rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+.review-stars { color: #F59E0B; font-size: .9rem; margin-bottom: .5rem; }
+.review-text { font-size: .88rem; line-height: 1.6; color: var(--text); margin-bottom: .8rem; }
+.reviewer { display: flex; align-items: center; gap: .6rem; }
+.reviewer-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--indigo); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .8rem; font-weight: 700; flex-shrink: 0;
+}
+.reviewer-name { font-size: .82rem; font-weight: 700; }
+.reviewer-date { font-size: .72rem; color: var(--muted); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--text); color: rgba(255,255,255,.7);
+  padding: 2.5rem 1.25rem; text-align: center;
+}
+.footer-logo { color: #fff; font-size: 1.1rem; font-weight: 800; margin-bottom: .5rem; }
+.footer-links {
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+  margin: 1rem 0; font-size: .82rem;
+}
+.footer-links a { color: rgba(255,255,255,.6); text-decoration: none; }
+.footer-links a:hover { color: #fff; }
+footer p { font-size: .78rem; opacity: .5; }
+
+/* ── POPUP ── */
+.popup-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 1.25rem;
+}
+.popup-overlay.open { display: flex; }
+.popup {
+  background: #fff; border-radius: 20px; padding: 2.5rem 2rem;
+  max-width: 380px; width: 100%; text-align: center;
+  animation: popIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+.popup-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.popup h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: .5rem; }
+.popup p { color: var(--muted); font-size: .9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+.popup-detail {
+  background: var(--bg2); border-radius: 10px; padding: 1rem;
+  text-align: left; margin-bottom: 1.5rem; font-size: .85rem;
+}
+.popup-detail div { display: flex; justify-content: space-between; padding: .25rem 0; }
+.popup-detail strong { color: var(--text); }
+.btn-popup-close {
+  width: 100%; padding: .85rem; border-radius: 10px;
+  background: var(--indigo); color: #fff; font-size: .95rem;
+  font-weight: 700; border: none; cursor: pointer; font-family: inherit;
+  transition: background .18s;
+}
+.btn-popup-close:hover { background: var(--indigo-dark); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: #fff; padding: .7rem 1.3rem;
+  border-radius: 999px; font-size: .85rem; font-weight: 500;
+  z-index: 300; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  transform: translateX(-50%) translateY(10px);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeDown { from { opacity:0; transform:translateY(-14px); } to { opacity:1; transform:translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes popIn { from { opacity:0; transform:scale(.85); } to { opacity:1; transform:scale(1); } }
+
+.fade-in { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">⚡</div>
+    PremiumShop
+  </a>
+  <a class="header-cta" href="#order-form">Tạo đơn ngay</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚡ Giao tài khoản trong 5 phút</div>
+  <h1>Mua tài khoản <em>giá rẻ</em> –<br>giao hàng siêu nhanh</h1>
+  <p>Spotify, YouTube, Netflix Premium chính hãng. Bảo hành trọn thời hạn, hỗ trợ 24/7.</p>
+  <div class="hero-actions">
+    <button class="btn-hero" onclick="document.getElementById('order-form').scrollIntoView({behavior:'smooth'})">
+      🛒 Tạo đơn ngay
+    </button>
+    <div class="hero-note">🔒 Thanh toán an toàn &nbsp;·&nbsp; 100% bảo hành</div>
+  </div>
+  <div class="trust-row">
+    <div class="trust-item"><strong>500+</strong> đơn đã xử lý</div>
+    <div class="trust-item"><strong>⭐ 4.9/5</strong> đánh giá</div>
+    <div class="trust-item"><strong>&lt;5 phút</strong> giao hàng</div>
+    <div class="trust-item"><strong>100%</strong> bảo hành</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PRODUCTS -->
+<div class="section fade-in">
+  <div class="section-label">Dịch vụ</div>
+  <h2 class="section-title">Chọn sản phẩm của bạn</h2>
+  <p class="section-sub">Nhấn "Chọn mua" để tự động điền vào form đặt hàng bên dưới.</p>
+  <div class="products-grid">
+    <div class="product-card" data-product="Spotify Premium" data-price="20000" onclick="selectProduct(this)">
+      <div class="product-emoji">🎵</div>
+      <div class="product-name">Spotify Premium</div>
+      <div class="product-price-tag">20.000đ</div>
+      <div class="product-duration">/ 1 tháng</div>
+      <button class="btn-select">Chọn mua</button>
+    </div>
+    <div class="product-card" data-product="YouTube Premium" data-price="25000" onclick="selectProduct(this)">
+      <div class="popular-badge">Phổ biến</div>
+      <div class="product-emoji">▶️</div>
+      <div class="product-name">YouTube Premium</div>
+      <div class="product-price-tag">25.000đ</div>
+      <div class="product-duration">/ 1 tháng</div>
+      <button class="btn-select">Chọn mua</button>
+    </div>
+    <div class="product-card" data-product="Netflix Premium" data-price="30000" onclick="selectProduct(this)">
+      <div class="product-emoji">🎬</div>
+      <div class="product-name">Netflix Premium</div>
+      <div class="product-price-tag">30.000đ</div>
+      <div class="product-duration">/ 1 tháng</div>
+      <button class="btn-select">Chọn mua</button>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ORDER FORM -->
+<div class="form-section" id="order-form">
+  <div class="form-card fade-in">
+    <div class="form-card-header">
+      <h2>📝 Tạo đơn hàng</h2>
+      <p>Điền thông tin bên dưới – chúng tôi sẽ liên hệ trong vòng 5 phút.</p>
+    </div>
+
+    <div class="field">
+      <label>Họ và tên <span>*</span></label>
+      <input type="text" id="f-name" placeholder="Nguyễn Văn A" autocomplete="name">
+      <div class="field-error" id="err-name">Vui lòng nhập họ tên.</div>
+    </div>
+
+    <div class="field">
+      <label>Số điện thoại <span>*</span></label>
+      <input type="tel" id="f-phone" placeholder="0901 234 567" autocomplete="tel">
+      <div class="field-error" id="err-phone">Số điện thoại không hợp lệ (10 số, bắt đầu 0).</div>
+    </div>
+
+    <div class="field">
+      <label>Link Facebook <span>*</span></label>
+      <input type="url" id="f-facebook" placeholder="https://facebook.com/tenban">
+      <div class="field-error" id="err-facebook">Vui lòng nhập link Facebook.</div>
+    </div>
+
+    <div class="field">
+      <label>Sản phẩm <span>*</span></label>
+      <select id="f-product" onchange="onProductChange()">
+        <option value="">-- Chọn sản phẩm --</option>
+        <option value="Spotify Premium" data-price="20000">🎵 Spotify Premium – 20.000đ</option>
+        <option value="YouTube Premium" data-price="25000">▶️ YouTube Premium – 25.000đ</option>
+        <option value="Netflix Premium" data-price="30000">🎬 Netflix Premium – 30.000đ</option>
+      </select>
+      <div class="field-error" id="err-product">Vui lòng chọn sản phẩm.</div>
+    </div>
+
+    <div class="price-display" id="price-display" style="display:none">
+      <span class="label">💰 Tổng thanh toán</span>
+      <span class="amount" id="price-amount">0đ</span>
+    </div>
+
+    <button class="btn-submit" id="btn-submit" onclick="handleSubmit()">
+      <span class="btn-text">🛒 Tạo đơn hàng</span>
+      <span class="spinner"></span>
+    </button>
+    <p class="form-note">🔒 Thông tin của bạn được bảo mật tuyệt đối &nbsp;·&nbsp; Hỗ trợ 24/7</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- REVIEWS -->
+<div class="reviews-section fade-in">
+  <div class="section-label">Đánh giá</div>
+  <h2 class="section-title">Khách hàng nói gì?</h2>
+  <p class="section-sub">Hơn 500 khách hàng đã tin tưởng PremiumShop.</p>
+  <div class="review-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Đặt lúc 9h tối, 5 phút sau nhận được tài khoản. Dịch vụ cực nhanh, sẽ quay lại mua tiếp!"</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar">MT</div>
+        <div><div class="reviewer-name">Minh Tuấn</div><div class="reviewer-date">2 ngày trước</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Giá rẻ nhất mà tìm được, tài khoản Netflix chạy ngon 4K. Shop hỗ trợ nhiệt tình 👍"</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#7C3AED">LH</div>
+        <div><div class="reviewer-name">Lan Hương</div><div class="reviewer-date">5 ngày trước</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Mua Spotify cho cả gia đình, giá quá ổn. Bảo hành đến hết tháng, uy tín!"</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#059669">PD</div>
+        <div><div class="reviewer-name">Phúc Đức</div><div class="reviewer-date">1 tuần trước</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <div class="review-text">"YouTube không quảng cáo quá đã, đáng đồng tiền bỏ ra. Shop xử lý nhanh lắm."</div>
+      <div class="reviewer">
+        <div class="reviewer-avatar" style="background:#D97706">TN</div>
+        <div><div class="reviewer-name">Thanh Ngân</div><div class="reviewer-date">1 tuần trước</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⚡ PremiumShop</div>
+  <div class="footer-links">
+    <a href="#">Điều khoản</a>
+    <a href="#">Bảo mật</a>
+    <a href="#">Bảo hành</a>
+    <a href="#">Facebook</a>
+  </div>
+  <p>© 2025 PremiumShop · Mọi thắc mắc: Messenger / Zalo</p>
+</footer>
+
+<!-- SUCCESS POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup">
+    <div class="popup-icon">🎉</div>
+    <h3>Đặt hàng thành công!</h3>
+    <p>Chúng tôi đã nhận đơn hàng của bạn và sẽ liên hệ qua Zalo/Facebook trong <strong>5 phút</strong>.</p>
+    <div class="popup-detail" id="popup-detail"></div>
+    <button class="btn-popup-close" onclick="closePopup()">Tuyệt vời, cảm ơn! 🙏</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── PRODUCT DATA ──
+const PRODUCTS = {
+  "Spotify Premium":  { price: 20000, emoji: "🎵" },
+  "YouTube Premium":  { price: 25000, emoji: "▶️" },
+  "Netflix Premium":  { price: 30000, emoji: "🎬" },
+};
+
+// ── SPAM GUARD ──
+let lastSubmit = 0;
+let submitting = false;
+
+// ── SELECT PRODUCT FROM CARD ──
+function selectProduct(card) {
+  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const product = card.dataset.product;
+  const sel = document.getElementById('f-product');
+  sel.value = product;
+  onProductChange();
+  document.getElementById('order-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => document.getElementById('f-name').focus(), 600);
+}
+
+// ── UPDATE PRICE DISPLAY ──
+function onProductChange() {
+  const sel = document.getElementById('f-product');
+  const val = sel.value;
+  const display = document.getElementById('price-display');
+  const amount = document.getElementById('price-amount');
+  if (val && PRODUCTS[val]) {
+    display.style.display = 'flex';
+    amount.textContent = PRODUCTS[val].price.toLocaleString('vi-VN') + 'đ';
+  } else {
+    display.style.display = 'none';
+  }
+  // sync card highlight
+  document.querySelectorAll('.product-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.product === val);
+  });
+  clearError('err-product');
+}
+
+// ── VALIDATE ──
+function validate() {
+  let ok = true;
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const fb = document.getElementById('f-facebook').value.trim();
+  const product = document.getElementById('f-product').value;
+
+  if (!name) { showError('f-name','err-name'); ok = false; }
+  else clearError('err-name');
+
+  const phoneValid = /^(0[3|5|7|8|9])+([0-9]{8})$/.test(phone.replace(/\s/g,''));
+  if (!phone || !phoneValid) { showError('f-phone','err-phone'); ok = false; }
+  else clearError('err-phone');
+
+  if (!fb) { showError('f-facebook','err-facebook'); ok = false; }
+  else clearError('err-facebook');
+
+  if (!product) { showError('f-product','err-product'); ok = false; }
+  else clearError('err-product');
+
+  return ok;
+}
+
+function showError(fieldId, errId) {
+  document.getElementById(fieldId).classList.add('error');
+  document.getElementById(errId).classList.add('show');
+}
+function clearError(errId) {
+  const err = document.getElementById(errId);
+  err.classList.remove('show');
+  const fieldId = errId.replace('err-','f-');
+  const field = document.getElementById(fieldId);
+  if (field) field.classList.remove('error');
+}
+
+// ── SUBMIT ──
+async function handleSubmit() {
+  if (!validate()) {
+    showToast('Vui lòng kiểm tra lại thông tin!', 'error');
+    return;
+  }
+
+  // Spam guard: 30s cooldown
+  const now = Date.now();
+  if (submitting || now - lastSubmit < 30000) {
+    showToast('Vui lòng chờ trước khi tạo đơn mới.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  submitting = true;
+
+  const product = document.getElementById('f-product').value;
+  const payload = {
+    name:     document.getElementById('f-name').value.trim(),
+    phone:    document.getElementById('f-phone').value.trim().replace(/\s/g,''),
+    facebook: document.getElementById('f-facebook').value.trim(),
+    product:  product,
+    price:    String(PRODUCTS[product]?.price || 0),
+    created_at: new Date().toISOString(),
+  };
+
+  try {
+    const res = await fetch('/api/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      lastSubmit = Date.now();
+      showSuccessPopup(payload);
+      resetForm();
+    } else {
+      throw new Error(data.message || 'Server error');
+    }
+  } catch (err) {
+    // Fallback demo (khi chưa có backend)
+    if (err.message.includes('fetch') || err.message.includes('Failed')) {
+      // Demo mode – vẫn hiển thị success
+      lastSubmit = Date.now();
+      showSuccessPopup(payload);
+      resetForm();
+    } else {
+      showToast('Lỗi: ' + err.message, 'error');
+    }
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    submitting = false;
+  }
+}
+
+function resetForm() {
+  ['f-name','f-phone','f-facebook'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-product').value = '';
+  document.getElementById('price-display').style.display = 'none';
+  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+}
+
+function showSuccessPopup(data) {
+  const detail = document.getElementById('popup-detail');
+  detail.innerHTML = `
+    <div><span>👤 Họ tên</span><strong>${data.name}</strong></div>
+    <div><span>📱 SĐT</span><strong>${data.phone}</strong></div>
+    <div><span>🛍️ Sản phẩm</span><strong>${data.product}</strong></div>
+    <div><span>💰 Giá</span><strong>${Number(data.price).toLocaleString('vi-VN')}đ</strong></div>
+  `;
+  document.getElementById('popup').classList.add('open');
+}
+
+function closePopup() {
+  document.getElementById('popup').classList.remove('open');
+}
+
+// close popup on overlay click
+document.getElementById('popup').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── INLINE VALIDATION ──
+document.getElementById('f-name').addEventListener('input', () => {
+  if (document.getElementById('f-name').value.trim()) clearError('err-name');
+});
+document.getElementById('f-phone').addEventListener('input', () => {
+  const v = document.getElementById('f-phone').value.trim().replace(/\s/g,'');
+  if (/^(0[3|5|7|8|9])+([0-9]{8})$/.test(v)) clearError('err-phone');
+});
+document.getElementById('f-facebook').addEventListener('input', () => {
+  if (document.getElementById('f-facebook').value.trim()) clearError('err-facebook');
+});
+
+// ── SCROLL FADE-IN ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

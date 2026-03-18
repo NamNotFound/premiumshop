@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – PremiumShop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --indigo:#4F46E5;--indigo-dark:#3730A3;--indigo-light:#EEF2FF;
+  --text:#111827;--muted:#6B7280;--border:#E5E7EB;--bg:#F9FAFB;--white:#fff;
+  --green:#059669;--red:#DC2626;--yellow:#D97706;--blue:#2563EB;
+  --radius:12px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* LOGIN */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.25rem;
+  background:linear-gradient(135deg,#EEF2FF 0%,#fff 100%);
+}
+.login-card{
+  background:var(--white);border:1px solid var(--border);border-radius:20px;
+  padding:2.5rem 2rem;width:100%;max-width:360px;text-align:center;
+  box-shadow:0 8px 32px rgba(79,70,229,.12);
+}
+.login-card h1{font-size:1.4rem;font-weight:800;margin-bottom:.3rem;}
+.login-card p{color:var(--muted);font-size:.88rem;margin-bottom:1.8rem;}
+.login-card input{
+  width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:10px;
+  font-size:.95rem;font-family:inherit;outline:none;margin-bottom:1rem;
+  transition:border-color .18s;
+}
+.login-card input:focus{border-color:var(--indigo);}
+.login-card button{
+  width:100%;padding:.85rem;border-radius:10px;background:var(--indigo);color:#fff;
+  font-size:.95rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;
+  transition:background .18s;
+}
+.login-card button:hover{background:var(--indigo-dark);}
+.login-error{color:var(--red);font-size:.82rem;margin-top:.6rem;display:none;}
+
+/* ADMIN LAYOUT */
+#admin-screen{display:none;}
+.admin-header{
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:40;
+}
+.admin-logo{font-weight:800;font-size:1.05rem;color:var(--indigo);display:flex;align-items:center;gap:.4rem;}
+.header-right{display:flex;align-items:center;gap:.75rem;}
+.btn-refresh{
+  background:var(--indigo-light);color:var(--indigo);border:1px solid #C7D2FE;
+  padding:.4rem .9rem;border-radius:8px;font-size:.82rem;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:background .18s;
+}
+.btn-refresh:hover{background:#E0E7FF;}
+.btn-logout{
+  background:transparent;color:var(--muted);border:1px solid var(--border);
+  padding:.4rem .9rem;border-radius:8px;font-size:.82rem;cursor:pointer;font-family:inherit;
+  transition:border-color .18s;
+}
+.btn-logout:hover{border-color:var(--red);color:var(--red);}
+
+.admin-body{padding:1.5rem;max-width:1100px;margin:0 auto;}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem;}
+@media(min-width:640px){.stats-row{grid-template-columns:repeat(4,1fr);}}
+.stat-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.1rem 1rem;
+}
+.stat-card .label{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem;}
+.stat-card .value{font-size:1.6rem;font-weight:800;}
+.stat-card .sub{font-size:.75rem;color:var(--muted);margin-top:.2rem;}
+
+/* FILTERS */
+.filters{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem;}
+.tab-btn{
+  background:var(--white);border:1.5px solid var(--border);border-radius:8px;
+  padding:.4rem .9rem;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--muted);
+  font-family:inherit;transition:all .18s;
+}
+.tab-btn.active{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+.tab-btn:hover:not(.active){border-color:var(--indigo);color:var(--indigo);}
+.search-box{
+  flex:1;min-width:180px;padding:.45rem .9rem;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.85rem;font-family:inherit;outline:none;
+  transition:border-color .18s;
+}
+.search-box:focus{border-color:var(--indigo);}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+th{
+  background:var(--bg);text-align:left;padding:.7rem 1rem;font-size:.72rem;
+  color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  border-bottom:1px solid var(--border);
+}
+td{padding:.8rem 1rem;font-size:.85rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#FAFAFA;}
+
+.badge{display:inline-block;padding:.22rem .6rem;border-radius:999px;font-size:.72rem;font-weight:700;}
+.badge-pending{background:#FEF3C7;color:#D97706;}
+.badge-processing{background:#DBEAFE;color:#2563EB;}
+.badge-done{background:#D1FAE5;color:#059669;}
+.badge-cancelled{background:#FEE2E2;color:#DC2626;}
+
+.status-select{
+  border:1.5px solid var(--border);border-radius:7px;padding:.3rem .5rem;
+  font-size:.78rem;font-family:inherit;cursor:pointer;outline:none;background:var(--white);
+  transition:border-color .18s;
+}
+.status-select:focus{border-color:var(--indigo);}
+.btn-delete{
+  background:transparent;border:1px solid var(--border);color:var(--muted);
+  padding:.3rem .6rem;border-radius:6px;cursor:pointer;font-size:.78rem;
+  transition:all .18s;font-family:inherit;
+}
+.btn-delete:hover{border-color:var(--red);color:var(--red);}
+
+.empty-row td{text-align:center;padding:3rem;color:var(--muted);}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(10px);
+  background:var(--text);color:#fff;padding:.65rem 1.3rem;border-radius:999px;
+  font-size:.83rem;font-weight:500;z-index:999;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+
+.loading-row td{text-align:center;padding:2.5rem;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div style="font-size:2.5rem;margin-bottom:.5rem">🔐</div>
+    <h1>PremiumShop Admin</h1>
+    <p>Nhập admin key để đăng nhập</p>
+    <input type="password" id="admin-key-input" placeholder="Admin key..." onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Đăng nhập</button>
+    <div class="login-error" id="login-error">Admin key không đúng!</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-screen">
+  <div class="admin-header">
+    <div class="admin-logo">⚡ PremiumShop Admin</div>
+    <div class="header-right">
+      <button class="btn-refresh" onclick="loadOrders()">🔄 Làm mới</button>
+      <a href="/" style="text-decoration:none"><button class="btn-logout" type="button">← Trang chủ</button></a>
+      <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="label">Tổng đơn</div><div class="value" id="s-total">–</div></div>
+      <div class="stat-card"><div class="label">Chờ xử lý</div><div class="value" id="s-pending" style="color:var(--yellow)">–</div></div>
+      <div class="stat-card"><div class="label">Hoàn thành</div><div class="value" id="s-done" style="color:var(--green)">–</div></div>
+      <div class="stat-card"><div class="label">Doanh thu</div><div class="value" id="s-revenue" style="color:var(--indigo)">–</div></div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <button class="tab-btn active" onclick="setFilter('all',this)">Tất cả</button>
+      <button class="tab-btn" onclick="setFilter('pending',this)">⏳ Chờ xử lý</button>
+      <button class="tab-btn" onclick="setFilter('processing',this)">🔄 Đang xử lý</button>
+      <button class="tab-btn" onclick="setFilter('done',this)">✅ Hoàn thành</button>
+      <button class="tab-btn" onclick="setFilter('cancelled',this)">❌ Đã huỷ</button>
+      <input class="search-box" type="text" id="search-input" placeholder="🔍 Tìm theo tên, SĐT..." oninput="loadOrders()">
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Khách hàng</th>
+              <th>Sản phẩm</th>
+              <th>Giá</th>
+              <th>Facebook</th>
+              <th>Trạng thái</th>
+              <th>Ngày tạo</th>
+              <th>Xoá</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <tr class="loading-row"><td colspan="8">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let ADMIN_KEY = '';
+let currentFilter = 'all';
+
+const API = window.location.origin + '/api';
+
+// ── LOGIN ──
+function doLogin() {
+  const key = document.getElementById('admin-key-input').value.trim();
+  if (!key) return;
+  ADMIN_KEY = key;
+  document.getElementById('login-error').style.display = 'none';
+  loadStats().then(() => {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    loadOrders();
+  }).catch(() => {
+    document.getElementById('login-error').style.display = 'block';
+    ADMIN_KEY = '';
+  });
+}
+
+function logout() {
+  ADMIN_KEY = '';
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-key-input').value = '';
+}
+
+// ── STATS ──
+async function loadStats() {
+  const res = await fetch(`${API}/stats`, { headers: { 'x-admin-key': ADMIN_KEY } });
+  if (!res.ok) throw new Error('Unauthorized');
+  const data = await res.json();
+  document.getElementById('s-total').textContent   = data.total;
+  document.getElementById('s-pending').textContent = data.pending;
+  document.getElementById('s-done').textContent    = data.done;
+  document.getElementById('s-revenue').textContent = Number(data.revenue).toLocaleString('vi-VN') + 'đ';
+}
+
+// ── ORDERS ──
+function setFilter(status, btn) {
+  currentFilter = status;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadOrders();
+}
+
+async function loadOrders() {
+  const search = document.getElementById('search-input')?.value || '';
+  const params = new URLSearchParams({ status: currentFilter, search, limit: 50 });
+  const tbody  = document.getElementById('orders-tbody');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Đang tải...</td></tr>';
+  try {
+    const res  = await fetch(`${API}/orders?${params}`, { headers: { 'x-admin-key': ADMIN_KEY } });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+    renderOrders(data.orders);
+    loadStats();
+  } catch (e) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">❌ ${e.message}</td></tr>`;
+  }
+}
+
+function renderOrders(orders) {
+  const tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="8">📭 Không có đơn hàng nào</td></tr>';
+    return;
+  }
+  const statusLabel = { pending:'⏳ Chờ xử lý', processing:'🔄 Đang xử lý', done:'✅ Hoàn thành', cancelled:'❌ Đã huỷ' };
+  tbody.innerHTML = orders.map((o, i) => `
+    <tr>
+      <td style="color:var(--muted);font-size:.75rem">${i+1}</td>
+      <td>
+        <div style="font-weight:700">${esc(o.name)}</div>
+        <div style="color:var(--muted);font-size:.78rem">${esc(o.phone)}</div>
+      </td>
+      <td style="font-weight:600">${esc(o.product)}</td>
+      <td style="color:var(--green);font-weight:700">${Number(o.price).toLocaleString('vi-VN')}đ</td>
+      <td>
+        <a href="${esc(o.facebook)}" target="_blank" style="color:var(--indigo);font-size:.78rem;word-break:break-all">
+          ${esc(o.facebook.replace('https://','').slice(0,30))}…
+        </a>
+      </td>
+      <td>
+        <select class="status-select" onchange="updateStatus('${o._id}',this.value)">
+          ${['pending','processing','done','cancelled'].map(s =>
+            `<option value="${s}" ${o.status===s?'selected':''}>${statusLabel[s]}</option>`
+          ).join('')}
+        </select>
+      </td>
+      <td style="color:var(--muted);font-size:.78rem">${new Date(o.created_at).toLocaleString('vi-VN')}</td>
+      <td><button class="btn-delete" onclick="deleteOrder('${o._id}')">🗑️</button></td>
+    </tr>
+  `).join('');
+}
+
+async function updateStatus(id, status) {
+  try {
+    const res = await fetch(`${API}/orders/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type':'application/json', 'x-admin-key': ADMIN_KEY },
+      body: JSON.stringify({ status }),
+    });
+    const data = await res.json();
+    if (data.success) { showToast('✅ Đã cập nhật!','success'); loadStats(); }
+    else showToast('❌ ' + data.message, 'error');
+  } catch (e) { showToast('Lỗi kết nối', 'error'); }
+}
+
+async function deleteOrder(id) {
+  if (!confirm('Xoá đơn hàng này?')) return;
+  try {
+    const res = await fetch(`${API}/orders/${id}`, {
+      method: 'DELETE', headers: { 'x-admin-key': ADMIN_KEY },
+    });
+    const data = await res.json();
+    if (data.success) { showToast('Đã xoá!','success'); loadOrders(); }
+    else showToast('❌ ' + data.message, 'error');
+  } catch (e) { showToast('Lỗi kết nối', 'error'); }
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
