@@ -158,7 +158,7 @@ app.get('/api/orders', adminAuth, async (req, res) => {
       Order.find(query).sort({ created_at: -1 }).skip((page-1)*limit).limit(Number(limit)),
       Order.countDocuments(query),
     ]);
-    
+    console.log('Orders found:', orders.length, 'Query:', query);
     const stats = await Order.aggregate([
       { $group: { _id: '$status', count: { $sum: 1 }, revenue: { $sum: { $toDouble: '$price' } } } }
     ]);
