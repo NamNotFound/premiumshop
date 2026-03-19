@@ -29,7 +29,10 @@ const orderLimiter = rateLimit({
 });
 
 // ── MONGODB CONNECTION ──
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/premiumshop')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/premiumshop', {
+  serverSelectionTimeoutMS: 5000,
+  bufferCommands: false,
+})
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB error:', err));
 
