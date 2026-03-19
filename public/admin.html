@@ -243,7 +243,7 @@ function logout() {
 
 // ── STATS ──
 async function loadStats() {
-  const res = await fetch(`${API}/stats`, { headers: { 'x-admin-key': ADMIN_KEY } });
+  const res = await fetch(`${API}/stats?key=${ADMIN_KEY}`);
   if (!res.ok) throw new Error('Unauthorized');
   const data = await res.json();
   document.getElementById('s-total').textContent   = data.total;
@@ -266,7 +266,7 @@ async function loadOrders() {
   const tbody  = document.getElementById('orders-tbody');
   tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Đang tải...</td></tr>';
   try {
-    const res  = await fetch(`${API}/orders?${params}`, { headers: { 'x-admin-key': ADMIN_KEY } });
+    const res = await fetch(`${API}/stats?key=${ADMIN_KEY}`);
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
     renderOrders(data.orders);
@@ -312,11 +312,11 @@ function renderOrders(orders) {
 
 async function updateStatus(id, status) {
   try {
-    const res = await fetch(`${API}/orders/${id}`, {
+    const res = await fetch(`${API}/orders/${id}?key=${ADMIN_KEY}`, {
       method: 'PATCH',
-      headers: { 'Content-Type':'application/json', 'x-admin-key': ADMIN_KEY },
+      headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({ status }),
-    });
+      });
     const data = await res.json();
     if (data.success) { showToast('✅ Đã cập nhật!','success'); loadStats(); }
     else showToast('❌ ' + data.message, 'error');
@@ -326,9 +326,9 @@ async function updateStatus(id, status) {
 async function deleteOrder(id) {
   if (!confirm('Xoá đơn hàng này?')) return;
   try {
-    const res = await fetch(`${API}/orders/${id}`, {
-      method: 'DELETE', headers: { 'x-admin-key': ADMIN_KEY },
-    });
+    const res = await fetch(`${API}/orders/${id}?key=${ADMIN_KEY}`, {
+      method: 'DELETE',
+      });
     const data = await res.json();
     if (data.success) { showToast('Đã xoá!','success'); loadOrders(); }
     else showToast('❌ ' + data.message, 'error');
