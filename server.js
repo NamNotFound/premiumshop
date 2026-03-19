@@ -146,7 +146,7 @@ app.get('/api/orders', adminAuth, async (req, res) => {
   try {
     const { page = 1, limit = 20, status, search } = req.query;
     const query = {};
-    if (status && status !== 'all') query.status = status;
+    if (status && status !== 'all' && status !== '') query.status = status;
     if (search) {
       query.$or = [
         { name:    { $regex: search, $options: 'i' } },
@@ -158,6 +158,7 @@ app.get('/api/orders', adminAuth, async (req, res) => {
       Order.find(query).sort({ created_at: -1 }).skip((page-1)*limit).limit(Number(limit)),
       Order.countDocuments(query),
     ]);
+    
     const stats = await Order.aggregate([
       { $group: { _id: '$status', count: { $sum: 1 }, revenue: { $sum: { $toDouble: '$price' } } } }
     ]);
