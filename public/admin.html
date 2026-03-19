@@ -269,8 +269,7 @@ async function loadOrders() {
     const res = await fetch(`${API}/stats?key=${ADMIN_KEY}`);
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
-    renderOrders(data.orders);
-    loadStats();
+    renderOrders(data.orders || []);
   } catch (e) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="8">❌ ${e.message}</td></tr>`;
   }
